@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import PopUp from './Popup'
+import { set } from 'mongoose';
 
 interface PopupContainerProps {
-    isOpen: boolean;
-    setIsOpen?: (isOpen: boolean) => void;
+    onClose: () => void;
 }   
 
-const PopupContainer: React.FC<PopupContainerProps> = ({isOpen, setIsOpen}) => {
+const PopupContainer: React.FC<PopupContainerProps> = ({onClose}) => {
 
   return (
     <PopUp 
-     isOpen={isOpen} 
+     onClose={onClose} // close when clicking outside popup
      />
   )
 }
