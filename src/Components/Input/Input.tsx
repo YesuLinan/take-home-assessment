@@ -1,4 +1,6 @@
 import React from 'react'
+import type { InputChangeEvent } from '../../Types/types'
+
 
 interface InputProps {
   type?: 'text' | 'number' | 'file' | 'date',
@@ -6,7 +8,7 @@ interface InputProps {
   placeholder?: string,
   title: string,
   value?: string | number,
-  onChange: () => void
+  onChange: (e: InputChangeEvent) => void
 }
 
 const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value, onChange}) => {

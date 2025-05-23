@@ -1,12 +1,7 @@
 import React from 'react'
 import ButtonContainer from '../../Components/Button/ButtonContainer'
 import ContactCardContainer from '../../Components/ContactCard/ContactCardContainer';
-
-interface Contact {
-  picture?: File,
-  name: string,
-  dateOfBirth: Date;
-}
+import type { Contact } from '../../Types/types';
 
 interface ContactPageProps {
   contact: Contact[],

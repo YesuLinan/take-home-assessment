@@ -1,28 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ContactPage from "./ContactPage";
 import PopupContainer from "../../Components/ContactPopup/ContactPopupContainer";
-import type { Contact } from "../../Types/Contact";
+import { getContacts } from "../../../api/services/contactService";
+import type { Contact } from "../../Types/types";
 
 const ContactPageContainer = () => {
   const [isAddContactOpen, setIsAddContactOpen] = React.useState(false);
-  const [selectedContact, setSelectedContact] = React.useState<{
-    contact: Contact
-  } | null>(null);
-  const contactCards = [
-    {
-      id: 1,
-      name: "John Doe",
-      dateOfBirth: new Date("1990-01-01"),
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      dateOfBirth: new Date("1992-02-02"),
-    },
-  ];
+  const [selectedContact, setSelectedContact] = React.useState<Contact | null>(null);
+  const [contactCards, setContactCards] = React.useState<Contact[]>([]);
+
+  useEffect(() => {
+  const fetchContacts = async () => {
+    try {
+      console.log("Fetching contacts...");
+      const contacts = await getContacts();
+      console.log("Contacts fetched:", contacts);
+      setContactCards(contacts);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
+  };
+
+  fetchContacts();
+}, []);
 
   const handleContactClick = (contact: Contact) => {
-    setSelectedContact({ contact });
+    setSelectedContact(contact);
     setIsAddContactOpen(true);
   };
 
@@ -30,16 +33,16 @@ const ContactPageContainer = () => {
     <>
       <ContactPage
         onOpenPopup={() => {
-          setSelectedContact(null); // clear for "new" contact
+          setSelectedContact(null);
           setIsAddContactOpen(true);
         }}
         contact={contactCards}
         onContactClick={handleContactClick}
       />
-      {isAddContactOpen  && (
+      {isAddContactOpen && (
         <PopupContainer
           onClose={() => setIsAddContactOpen(false)}
-          contact={selectedContact?.contact} // close when clicking outside popup
+          contact={selectedContact ? selectedContact : undefined}
         />
       )}
     </>

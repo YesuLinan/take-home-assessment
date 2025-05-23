@@ -1,6 +1,6 @@
 import React from "react";
 import ContactCard from "./ContactCard";
-import type { Contact } from "../../Types/Contact";
+import type { Contact } from "../../Types/types";
 
 
 interface ContactCardContainerProps {

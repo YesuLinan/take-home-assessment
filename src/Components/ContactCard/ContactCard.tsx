@@ -1,15 +1,12 @@
 import React from "react";
-import type { Contact } from "../../Types/Contact";
+import type { Contact } from "../../Types/types";
 
 interface ContactCardProps {
   contact: Contact;
   onClick: () => void;
 }
 
-const ContactCard: React.FC<ContactCardProps> = ({
-  contact,
-  onClick,
-}) => {
+const ContactCard: React.FC<ContactCardProps> = ({ contact, onClick }) => {
   return (
     <div
       className="w-full bg-blue-500 flex flex-row shadow-md p-4 rounded-lg 
@@ -17,15 +14,25 @@ const ContactCard: React.FC<ContactCardProps> = ({
       onClick={onClick}
     >
       <div className="flex flex-row gap-5">
-        <img
-          src={contact.picture ? URL.createObjectURL(contact.picture) : ""}
-          className="contact-card__image"
-        />
-        <h2 className="contact-card__name">{contact.name}</h2>
+        {contact.picture instanceof File ? (
+          <img
+            src={URL.createObjectURL(contact.picture)}
+            className="contact-card__image"
+            alt={`${contact.name}'s picture`}
+          />
+        ) : typeof contact.picture === "string" ? (
+          <img
+            src={contact.picture}
+            className="contact-card__image"
+            alt={`${contact.name}'s picture`}
+          />
+        ) : null}
+
+        <h2 className="contact-card__name">{contact?.name}</h2>
       </div>
 
       <p className="contact-card__dob">
-        Date of Birth: {contact.dateOfBirth.toLocaleDateString()}
+        Date of Birth: {contact?.dateOfBirth?.toLocaleDateString()}
       </p>
     </div>
   );
