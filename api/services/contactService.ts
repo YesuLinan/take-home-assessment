@@ -1,4 +1,6 @@
-import type { Contact } from "../../src/Types/Contact";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import type { Contact } from "../../src/Types/types";
+import { v4 as uuidv4 } from "uuid";
 
 const API_BASE = "http://localhost:3000/api/contacts";
 
@@ -44,4 +46,13 @@ export async function deleteContact(id: string) {
     throw new Error(`Failed to delete contact: ${res.statusText}`);
   }
   return res.json();
+}
+
+export async function uploadImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file); // converts to Base64
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
 }

@@ -13,17 +13,17 @@ const ContactCard: React.FC<ContactCardProps> = ({ contact, onClick }) => {
       justify-between items-center cursor-pointer"
       onClick={onClick}
     >
-      <div className="flex flex-row gap-5">
+      <div className="flex flex-row gap-5 items-center justify-center">
         {contact.picture instanceof File ? (
           <img
             src={URL.createObjectURL(contact.picture)}
-            className="contact-card__image"
+            className="w-16 h-16 rounded-full object-cover"
             alt={`${contact.name}'s picture`}
           />
         ) : typeof contact.picture === "string" ? (
           <img
             src={contact.picture}
-            className="contact-card__image"
+            className="w-16 h-16 rounded-full object-cover"
             alt={`${contact.name}'s picture`}
           />
         ) : null}
