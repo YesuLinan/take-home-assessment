@@ -12,16 +12,19 @@ interface ContactPageProps {
 
 const ContactPage: React.FC<ContactPageProps> = ({contact, onOpenPopup, onContactClick}) => {
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <div className='w-4/5 bg-blue-100 flex flex-col shadow-md'>
-        <div className='flex flex-row content-center justify-between w-full px-20 my-10'>
-          <h1 className='font-semibold text-lg'>Contacts</h1>
+    <div className="min-h-screen bg-gray-100 p-5 sm:p-10 flex justify-center">
+      <div className='w-full max-w-4xl bg-blue-100 flex flex-col shadow-md rounded-md'>
+        <div className='flex flex-col sm:flex-row items-center justify-between px-5 sm:px-10 py-6'>
+          <h1 className='font-semibold text-xl sm:text-2xl mb-3 sm:mb-0'>Contacts</h1>
           <ButtonContainer
           text={'Add Contact'}
           onClick={onOpenPopup}
           />    
         </div>
-        <div className='flex flex-col m-10 w-3/5 gap-5'>
+        <div className='flex flex-col gap-5 px-5 sm:px-10 pb-10'>
+           {contact.length === 0 && (
+            <p className="text-center text-gray-600 py-10">No contacts available. Make some friends!</p>
+          )}
           {contact.map((contact, i) => (
             <ContactCardContainer
               key={i}
