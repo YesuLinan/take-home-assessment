@@ -1,14 +1,15 @@
 import React from 'react'
 
 interface InputProps {
-  type?: 'text' | 'number' | 'file',
+  type?: 'text' | 'number' | 'file' | 'date',
   maxLength?: number,
   placeholder?: string,
   title: string,
+  value?: string | number,
   onChange: () => void
 }
 
-const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, onChange}) => {
+const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value, onChange}) => {
   return (
     <>
       <div>
@@ -16,15 +17,17 @@ const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, onCha
       </div>
       <label>
         <input
-          type={type}
-          maxLength={maxLength}
-          placeholder={placeholder}
           className={`
             border border-gray-300 rounded-md p-2 w-full
             focus:outline-none focus:ring-2 focus:ring-blue-400
             transition-colors duration-200
           `}
+          type={type}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          value={value}
           onChange={onChange}
+          
         />
       </label>
     </>

@@ -1,22 +1,22 @@
 import React from "react";
 import ContactCard from "./ContactCard";
+import type { Contact } from "../../Types/Contact";
+
 
 interface ContactCardContainerProps {
-  picture?: File;
-  name: string;
-  dateOfBirth: Date;
+  contact: Contact,
+  onClick: () => void;
 }
 
 const ContactCardContainer: React.FC<ContactCardContainerProps> = ({
-  picture,
-  name,
-  dateOfBirth,
+  contact,
+  onClick
 }) => {
+
   return (
   <ContactCard 
-  picture={picture}
-  name={name}
-  dateOfBirth={dateOfBirth} />
+  contact={contact}
+  onClick={onClick}/>
   )
 };
 

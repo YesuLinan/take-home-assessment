@@ -3,18 +3,19 @@ import ButtonContainer from '../../Components/Button/ButtonContainer'
 import ContactCardContainer from '../../Components/ContactCard/ContactCardContainer';
 
 interface Contact {
-  id: number,
   picture?: File,
   name: string,
   dateOfBirth: Date;
 }
 
 interface ContactPageProps {
-  onOpenPopup: () => void;
-  contact: Contact[];
+  contact: Contact[],
+  onOpenPopup: () => void,
+  onContactClick: (contact: Contact) => void;
+
 }
 
-const ContactPage: React.FC<ContactPageProps> = ({onOpenPopup, contact}) => {
+const ContactPage: React.FC<ContactPageProps> = ({contact, onOpenPopup, onContactClick}) => {
   return (
     <div className="min-h-screen bg-gray-100 p-10">
       <div className='w-4/5 bg-blue-100 flex flex-col shadow-md'>
@@ -26,12 +27,11 @@ const ContactPage: React.FC<ContactPageProps> = ({onOpenPopup, contact}) => {
           />    
         </div>
         <div className='flex flex-col m-10 w-3/5 gap-5'>
-          {contact.map((contact) => (
+          {contact.map((contact, i) => (
             <ContactCardContainer
-              key={contact.id}
-              picture={contact.picture}
-              name={contact.name}
-              dateOfBirth={contact.dateOfBirth}
+              key={i}
+              contact={contact}
+              onClick={() => onContactClick(contact)}
             />
           ))}
         </div>

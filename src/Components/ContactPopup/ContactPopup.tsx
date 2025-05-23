@@ -1,11 +1,13 @@
 import React from 'react'
 import InputContainer from '../Input/InputContainer';
+import type { Contact } from '../../Types/Contact';
 
-interface PopupContainerProps {
-  onClose: () => void;
+interface ContactPopupProps {
+  contact?: Contact
+  onClose: () => void
 }
 
-const Popup: React.FC<PopupContainerProps> = ( {onClose}) => {
+const ContactPopup: React.FC<ContactPopupProps> = ( { contact, onClose }) => {
  return (
     // Blackout background with some transparency (backdrop-filter for blur + bg opacity)
     <div
@@ -18,14 +20,24 @@ const Popup: React.FC<PopupContainerProps> = ( {onClose}) => {
       >
         <InputContainer
         title={'Name'}
+        value={contact?.name}
         onChange={function (): void {
         throw new Error('Function not implemented.');
         }}
         maxLength={50}
+        />
+
+        <InputContainer
+        title={'Date of Birth'}
+        type='date'
+        value={contact?.dateOfBirth.toISOString().split('T')[0]} // format date to YYYY-MM-DD
+        onChange={function (): void {
+        throw new Error('Function not implemented.');
+        }}
         />
       </div>
     </div>
   )
 }
 
-export default Popup
+export default ContactPopup
