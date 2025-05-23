@@ -9,11 +9,13 @@ import {
 interface ContactPopupContainerProps {
   contact?: Contact;
   onClose: () => void;
+  onContactAdded?: () => void;
 }
 
 const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
   contact,
   onClose,
+  onContactAdded
 }) => {
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -38,12 +40,13 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
 
     try {
       if (isEditMode && contact) {
-        // If editing, pass the existing contact id plus the updated fields
         await updateContact({ ...contactToSubmit, id: contact.id });
       } else {
-        // Adding new contact
         await addContact(contactToSubmit);
       }
+      // Call this to refresh the list in the parent container
+      onContactAdded && await onContactAdded();
+
       onClose();
     } catch (error) {
       console.error("Error submitting contact:", error);
