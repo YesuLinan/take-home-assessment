@@ -38,6 +38,10 @@ const ContactPopup: React.FC<ContactPopupProps> = ({
         className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()} // prevent close on popup click
       >
+        <h2 className="text-xl font-semibold text-center mb-6">
+          {isEditMode ? "Editing Contact" : "Adding Contact"}
+        </h2>
+        
         <InputContainer
           title={"Name"}
           value={name}
