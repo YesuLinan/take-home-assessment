@@ -2,17 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 const contactRoutes = require('./routes/contactRoutes');
+const serviceAccount = require('./firebase-service-account.json');
+
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize Firebase Admin SDK
-const serviceAccount = require('./serviceAccountKey.json');
-
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  projectId: serviceAccount.project_id
 });
+
 
 const db = admin.firestore();
 
