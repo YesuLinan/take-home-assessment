@@ -1,7 +1,7 @@
 export interface Contact {
   id: string;
   name: string;
-  dateOfBirth: Date;
+  lastContactDate: Date;
   picture?: File | string;
 }
 

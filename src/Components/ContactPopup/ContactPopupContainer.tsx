@@ -21,16 +21,14 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
   onContactAdded
 }) => {
   const [name, setName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [lastContactDate, setlastContactDate] = useState("");
   const [picture, setPicture] = useState<File | null>(null);
-
-  console.log("Picture:", picture);
 
   // Pre-fill values if editing
   useEffect(() => {
     if (contact) {
       setName(contact.name);
-      setDateOfBirth(contact?.dateOfBirth?.toISOString().split("T")[0]);
+      setlastContactDate(contact?.lastContactDate?.toISOString().split("T")[0]);
     }
   }, [contact]);
 
@@ -41,8 +39,8 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
       alert("Name cannot be empty.");
       return;
     }
-    if (!dateOfBirth) {
-      alert("Date of birth cannot be empty.");
+    if (!lastContactDate) {
+      alert("Last Contact Date cannot be empty.");
       return;
     }
 
@@ -59,7 +57,7 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
 
       const contactToSubmit: Omit<Contact, "id"> = {
         name,
-        dateOfBirth: new Date(dateOfBirth),
+        lastContactDate: new Date(lastContactDate),
         picture: pictureUrl,
       };
 
@@ -91,14 +89,14 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
   return (
     <ContactPopup
       name={name}
-      dateOfBirth={dateOfBirth}
+      lastContactDate={lastContactDate}
       onClose={onClose}
       contact={contact}
       isEditMode={isEditMode}
       onSubmit={handleSubmit}
       onDelete={handleDelete}
       setName={setName}
-      setDateOfBirth={setDateOfBirth}
+      setlastContactDate={setlastContactDate}
       setPicture={setPicture}
     />
   );

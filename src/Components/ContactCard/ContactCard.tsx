@@ -32,7 +32,7 @@ const ContactCard: React.FC<ContactCardProps> = ({ contact, onClick }) => {
       </div>
 
       <p className="contact-card__dob text-white text-sm sm:text-base">
-        Date of Birth: {contact?.dateOfBirth?.toLocaleDateString()}
+        Last Contact Date: {contact?.lastContactDate?.toLocaleDateString()}
       </p>
     </div>
   );

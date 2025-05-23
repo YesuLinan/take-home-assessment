@@ -33,7 +33,7 @@ export async function getContacts(): Promise<Contact[]> {
   const data = await res.json();
   return data.map((contact: any) => ({
     ...contact,
-    dateOfBirth: contact.dateOfBirth ? new Date(contact.dateOfBirth) : null,
+    lastContactDate: contact.lastContactDate ? new Date(contact.lastContactDate) : null,
   }));
 }
 

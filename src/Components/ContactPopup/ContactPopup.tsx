@@ -5,27 +5,27 @@ import Button from "../Button/Button";
 
 interface ContactPopupProps {
   name: string;
-  dateOfBirth: string;
+  lastContactDate: string;
   contact?: Contact;
   onClose: () => void;
   isEditMode: boolean;
   onSubmit: () => void;
   onDelete: () => void;
   setName: (name: string) => void;
-  setDateOfBirth: (date: string) => void;
+  setlastContactDate: (date: string) => void;
   setPicture: (picture: File | null) => void;
 }
 
 const ContactPopup: React.FC<ContactPopupProps> = ({
   name,
-  dateOfBirth,
+  lastContactDate: lastContactDate,
   contact,
   onClose,
   isEditMode,
   onSubmit,
   onDelete,
   setName,
-  setDateOfBirth,
+  setlastContactDate,
   setPicture,
 }) => {
   return (
@@ -41,16 +41,16 @@ const ContactPopup: React.FC<ContactPopupProps> = ({
         <h2 className="text-xl font-semibold text-center mb-6">
           {isEditMode ? "Editing Contact" : "Adding Contact"}
         </h2>
-        
+
         <InputContainer
-          title={"Name"}
+          title={"Contact Name"}
           value={name}
           onChange={(e: any) => setName(e.target.value)}
           maxLength={50}
         />
 
         <InputContainer
-          title={"Picture"}
+          title={"Profile Picture"}
           type="file"
           onChange={(e: InputChangeEvent) => {
             const file = e.target.files && e.target.files[0];
@@ -59,10 +59,10 @@ const ContactPopup: React.FC<ContactPopupProps> = ({
         />
 
         <InputContainer
-          title={"Date of Birth"}
+          title={"Last Contact Date"}
           type="date"
-          value={dateOfBirth} // format date to YYYY-MM-DD
-          onChange={(e: any) => setDateOfBirth(e.target.value)}
+          value={lastContactDate} // format date to YYYY-MM-DD
+          onChange={(e: any) => setlastContactDate(e.target.value)}
         />
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
