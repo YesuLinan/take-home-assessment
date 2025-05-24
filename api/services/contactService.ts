@@ -48,8 +48,8 @@ export async function deleteContact(id: string) {
 
 export async function uploadImage(file: File): Promise<string> {
   const formData = new FormData();
-  formData.append("file", file);  // Changed from "image" to "file"
-  formData.append("upload_preset", "ml_default");  // Use your verified preset name
+  formData.append("file", file);
+  formData.append("upload_preset", "ml_default");
 
   const res = await fetch("https://api.cloudinary.com/v1_1/do1pv1lhq/image/upload", {
     method: "POST",
@@ -62,5 +62,5 @@ export async function uploadImage(file: File): Promise<string> {
   }
 
   const data = await res.json();
-  return data.secure_url;  // Use secure_url instead of url
+  return data.secure_url;
 }
