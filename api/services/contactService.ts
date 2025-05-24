@@ -1,12 +1,10 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import type { Contact } from "../../src/Types/types";
-import { v4 as uuidv4 } from "uuid";
 
-const API_BASE = "http://localhost:3000/api/contacts";
+const API_BASE = "https://take-home-assessment-6juk.onrender.com/api/contacts";
 
 export async function addContact(contact: Omit<Contact, "id">) {
   console.log("Adding contact:", contact);
-  const res = await fetch(API_BASE, {
+  const res = await fetch(API_BASE + '/newContact', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(contact),
@@ -26,7 +24,7 @@ export async function updateContact(contact: Contact) {
 
 export async function getContacts(): Promise<Contact[]> {
   console.log("Fetching contacts...");
-  const res = await fetch(API_BASE);
+  const res = await fetch(API_BASE+ '/allContacts');
   if (!res.ok) {
     throw new Error(`Failed to fetch contacts: ${res.statusText}`);
   }
@@ -49,10 +47,20 @@ export async function deleteContact(id: string) {
 }
 
 export async function uploadImage(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file); // converts to Base64
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = error => reject(error);
+  const formData = new FormData();
+  formData.append("file", file);  // Changed from "image" to "file"
+  formData.append("upload_preset", "ml_default");  // Use your verified preset name
+
+  const res = await fetch("https://api.cloudinary.com/v1_1/do1pv1lhq/image/upload", {
+    method: "POST",
+    body: formData,
   });
+  
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(`Upload failed: ${error.error.message}`);
+  }
+
+  const data = await res.json();
+  return data.secure_url;  // Use secure_url instead of url
 }

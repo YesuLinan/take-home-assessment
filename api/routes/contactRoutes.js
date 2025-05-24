@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); 
 
 // Create a new contact
 router.post('/', async (req, res) => {
