@@ -2,7 +2,9 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build-frontend": "cd src && npm install && npm run build",
+    "build": "npm run build-frontend",
+    "start": "node api/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
