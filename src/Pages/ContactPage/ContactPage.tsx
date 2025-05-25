@@ -24,7 +24,6 @@ const ContactPage: React.FC<ContactPageProps> = ({
           <ButtonContainer
             text={"Add Contact"}
             onClick={onOpenPopup}
-            className="w-full sm:w-auto mt-2 sm:mt-0"
           />
         </div>
         <div className="flex flex-col gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 lg:px-10 pb-6 sm:pb-8 md:pb-10">
