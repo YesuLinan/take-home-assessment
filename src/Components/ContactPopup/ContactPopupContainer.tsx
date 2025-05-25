@@ -7,7 +7,6 @@ import {
   updateContact,
   uploadImage,
 } from "../../../api/services/contactService";
-import { set } from "mongoose";
 
 interface ContactPopupContainerProps {
   contact?: Contact;
