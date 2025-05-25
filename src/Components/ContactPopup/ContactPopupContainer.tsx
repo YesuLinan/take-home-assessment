@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ContactPopup from "./ContactPopup";
-import type { Contact } from "../../Types/types";
+import type { Contact, InputChangeEvent } from "../../Types/types";
 import {
   addContact,
   deleteContact,
   updateContact,
   uploadImage,
 } from "../../../api/services/contactService";
+import { set } from "mongoose";
 
 interface ContactPopupContainerProps {
   contact?: Contact;
@@ -22,41 +23,66 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
   const [name, setName] = useState("");
   const [lastContactDate, setlastContactDate] = useState("");
   const [picture, setPicture] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const anonymousImage = "/anonymous.jpg";
 
+  // Handle image preview
+  useEffect(() => {
+    if (picture) {
+      const objectUrl = URL.createObjectURL(picture);
+      setPreviewImage(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [picture]);
+
   // Pre-fill values if editing
   useEffect(() => {
+
     if (contact) {
       setName(contact.name);
       setlastContactDate(contact?.lastContactDate?.toISOString().split("T")[0]);
+      if (contact.picture) {
+        setPreviewImage(contact.picture);
+      }
     }
   }, [contact]);
 
   const isEditMode = !!contact;
 
   const handleSubmit = async () => {
-    if (!name.trim()) {
-      alert("Name cannot be empty.");
-      return;
-    }
-    if (!lastContactDate) {
-      alert("Last Contact Date cannot be empty.");
-      return;
-    }
+    
+  if (!name.trim()) {
+    alert("Name is required");
+    return;
+  }
 
+  if (!previewImage && !isEditMode) { // New contacts must have image
+    alert("Profile picture is required");
+    return;
+  }
+
+  if (!lastContactDate) {
+    alert("Last contact date is required");
+    return;
+  }
+  
+
+  setIsLoading(true);
     try {
-      let pictureUrl: string | undefined;
+      let pictureUrl: string;
 
       // If editing and picture is already a URL, retain it
       if (contact && typeof contact.picture === "string" && !picture) {
         pictureUrl = contact.picture;
-      } else if (picture instanceof File) {
-        pictureUrl = await uploadImage(picture); // Cloudinary upload
       } else {
-        alert("You must upload a picture.");
-        return;
-      }
+        if (!picture) {
+          throw new Error("Profile picture file is missing.");
+        }
+        pictureUrl = await uploadImage(picture); // Cloudinary upload
+        console.log("Uploaded image URL:", pictureUrl);
+      } 
 
       const contactToSubmit: Omit<Contact, "id"> = {
         name,
@@ -75,10 +101,14 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
     } catch (error) {
       console.error("Error submitting contact:", error);
       alert("There was an error saving the contact.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDelete = async () => {
+    setIsLoading(true);
+
     if (contact) {
       try {
         await deleteContact(contact.id);
@@ -86,22 +116,34 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
         onClose();
       } catch (error) {
         console.error("Error deleting contact:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
+
+  const handleFileChange = (e: InputChangeEvent) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPicture(file);
+    }
+  };
+
+  console.log("type of picture", typeof previewImage);
 
   return (
     <ContactPopup
       name={name}
       lastContactDate={lastContactDate}
       onClose={onClose}
-      contact={contact}
       isEditMode={isEditMode}
       onSubmit={handleSubmit}
       onDelete={handleDelete}
       setName={setName}
       setlastContactDate={setlastContactDate}
-      setPicture={setPicture}
+      handleFileChange={handleFileChange}
+      previewImage={previewImage}
+      isLoading={isLoading}
     />
   );
 };

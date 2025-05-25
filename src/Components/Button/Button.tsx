@@ -2,10 +2,11 @@ import React from 'react'
 
 interface ButtonProps {
     text: string;
+    disabled?: boolean;
     onClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({text, onClick}) => {
+const Button: React.FC<ButtonProps> = ({text, disabled, onClick}) => {
   return (
      <button
       type="button"
@@ -15,7 +16,9 @@ const Button: React.FC<ButtonProps> = ({text, onClick}) => {
         disabled:bg-blue-300 disabled:cursor-not-allowed
         transition-colors duration-200
         w-full sm:w-auto
+        flex items-center justify-center gap-2
       `}
+      disabled={disabled }
       onClick={onClick}
     >
       {text}

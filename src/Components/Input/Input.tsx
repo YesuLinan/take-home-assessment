@@ -13,14 +13,13 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value, onChange}) => {
   return (
-    <>
-      <div>
-         <span>{title}</span>
-      </div>
-      <label>
+    <div className="space-y-1 sm:space-y-2">
+      <span className="text-sm sm:text-base font-medium text-gray-700">{title}</span>
+      <label className="block">
         <input
           className={`
-            border border-gray-300 rounded-md p-2 w-full
+            border border-gray-300 rounded-md p-2 sm:p-3 w-full
+            text-sm sm:text-base
             focus:outline-none focus:ring-2 focus:ring-blue-400
             transition-colors duration-200
           `}
@@ -29,10 +28,9 @@ const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          
         />
       </label>
-    </>
+    </div>
   )
 }
 

@@ -2,7 +2,7 @@ export interface Contact {
   id: string;
   name: string;
   lastContactDate: Date;
-  picture?: File | string;
+  picture: string;
 }
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>;
