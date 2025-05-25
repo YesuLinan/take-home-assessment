@@ -8,10 +8,11 @@ interface InputProps {
   placeholder?: string,
   title: string,
   value?: string | number,
+  maxDate?: string,
   onChange: (e: InputChangeEvent) => void
 }
 
-const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value, onChange}) => {
+const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value, maxDate, onChange}) => {
   return (
     <div className="space-y-1 sm:space-y-2">
       <span className="text-sm sm:text-base font-medium text-gray-700">{title}</span>
@@ -28,6 +29,7 @@ const Input: React.FC<InputProps> = ({type, maxLength, placeholder, title, value
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          max={maxDate}
         />
       </label>
     </div>

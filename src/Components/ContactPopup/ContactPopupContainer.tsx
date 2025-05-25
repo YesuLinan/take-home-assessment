@@ -38,7 +38,6 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
 
   // Pre-fill values if editing
   useEffect(() => {
-
     if (contact) {
       setName(contact.name);
       setlastContactDate(contact?.lastContactDate?.toISOString().split("T")[0]);
@@ -51,24 +50,23 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
   const isEditMode = !!contact;
 
   const handleSubmit = async () => {
-    
-  if (!name.trim()) {
-    alert("Name is required");
-    return;
-  }
+    if (!name.trim()) {
+      alert("Name is required");
+      return;
+    }
 
-  if (!previewImage && !isEditMode) { // New contacts must have image
-    alert("Profile picture is required");
-    return;
-  }
+    if (!previewImage && !isEditMode) {
+      // New contacts must have image
+      alert("Profile picture is required");
+      return;
+    }
 
-  if (!lastContactDate) {
-    alert("Last contact date is required");
-    return;
-  }
-  
+    if (!lastContactDate) {
+      alert("Last contact date is required");
+      return;
+    }
 
-  setIsLoading(true);
+    setIsLoading(true);
     try {
       let pictureUrl: string;
 
@@ -81,7 +79,7 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
         }
         pictureUrl = await uploadImage(picture); // Cloudinary upload
         console.log("Uploaded image URL:", pictureUrl);
-      } 
+      }
 
       const contactToSubmit: Omit<Contact, "id"> = {
         name,
@@ -128,7 +126,12 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
     }
   };
 
-  console.log("type of picture", typeof previewImage);
+  const getLocalDateString = () => {
+    const now = new Date();
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0];
+  };
 
   return (
     <ContactPopup
@@ -143,6 +146,7 @@ const ContactPopupContainer: React.FC<ContactPopupContainerProps> = ({
       handleFileChange={handleFileChange}
       previewImage={previewImage}
       isLoading={isLoading}
+      getLocalDateString={getLocalDateString}
     />
   );
 };

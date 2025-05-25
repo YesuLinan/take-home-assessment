@@ -16,7 +16,8 @@ interface ContactPopupProps {
   onDelete: () => void;
   setName: (name: string) => void;
   setlastContactDate: (date: string) => void;
-  handleFileChange: (event: InputChangeEvent) => void;
+  handleFileChange: (event: InputChangeEvent) => void,
+  getLocalDateString: () => string;
 }
 
 const ContactPopup: React.FC<ContactPopupProps> = ({
@@ -31,6 +32,7 @@ const ContactPopup: React.FC<ContactPopupProps> = ({
   setName,
   setlastContactDate,
   handleFileChange,
+  getLocalDateString
 }) => {
   return (
     // Blackout background with some transparency (backdrop-filter for blur + bg opacity)
@@ -63,8 +65,9 @@ const ContactPopup: React.FC<ContactPopupProps> = ({
           <InputContainer
             title={"Last Contact Date"}
             type="date"
-            value={lastContactDate} // format date to YYYY-MM-DD
+            value={lastContactDate}
             onChange={(e: any) => setlastContactDate(e.target.value)}
+            maxDate={getLocalDateString()} // Prevent future dates
           />
 
           <div className="flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-4 sm:mt-6">

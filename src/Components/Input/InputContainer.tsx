@@ -8,10 +8,11 @@ interface InputContainerProps {
   placeholder?: string,
   title: string,
   value?: string | number,
+  maxDate?: string,
   onChange:  (e: InputChangeEvent) => void
 }
 
-const InputContainer: React.FC<InputContainerProps> = ({type, maxLength, placeholder, title, value, onChange}) => {
+const InputContainer: React.FC<InputContainerProps> = ({type, maxLength, placeholder, title, value, maxDate, onChange}) => {
 
   return (
    <Input 
@@ -19,7 +20,8 @@ const InputContainer: React.FC<InputContainerProps> = ({type, maxLength, placeho
     maxLength={maxLength}
     placeholder={placeholder}
     title={title}
-    value={value} // value is not passed in the props
+    value={value}
+    maxDate={maxDate}
     onChange={onChange}
    />
   )
